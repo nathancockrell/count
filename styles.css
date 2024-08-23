@@ -1,56 +1,75 @@
 body {
     font-family: Arial, sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
     margin: 0;
-    background-color: #f0f0f0;
+    padding: 0;
+    display: flex;
+    height: 100vh;
 }
 
-.container {
-    text-align: center;
-    padding:5rem;
-    border:1px solid black;
-    box-shadow: inset;
-    display:flex;
-    flex-direction: column;
-    justify-content: center;
+#app {
+    display: flex;
+    width: 100%;
+}
+
+#folderSection, #counterSection {
+    flex: 1;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+#folderSection {
+    background-color: #f8f8f8;
+    border-right: 1px solid #ccc;
+}
+
+#counterSection {
+    background-color: #fff;
+}
+
+h2 {
+    margin-top: 0;
+}
+
+#counterHeader {
+    display: flex;
+    justify-content: space-between;
     align-items: center;
-    background-color: white;
-}
-
-.number-display {
-    font-size: 3rem;
     margin-bottom: 20px;
-    background-color: white;
-    border-radius: 4px;
-    padding:4px;
 }
 
-.increment-button {
-    padding: 10px 20px;
-    font-size: 1rem;
-    margin-bottom: 10px;
+button {
+    padding: 5px 10px;
+    cursor: pointer;
 }
 
-.increment-input {
-    padding: 5px;
-    font-size: 1rem;
-    width: 100px;
+.folder {
+    padding: 10px;
+    background-color: #e0e0e0;
+    margin-bottom: 5px;
+    border-radius: 5px;
+    cursor: pointer;
 }
 
-.alert {
-    color: red;
-    font-size: 1rem;
-    margin-bottom: 10px;
-    visibility: hidden;
+.folder.selected {
+    background-color: #d0d0d0;
+    border: 2px solid #007bff;
 }
 
-.alert.visible {
-    visibility: visible;
+.folder.dragging {
+    opacity: 0.5;
 }
-/* 
-.hidden {
-    display: none;
-} */
+
+.counter {
+    padding: 10px;
+    background-color: #f0f0f0;
+    margin-bottom: 5px;
+    border: 1px solid #ccc;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.counter input[type="number"] {
+    width: 50px;
+    margin-left: 10px;
+}

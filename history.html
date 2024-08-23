@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Counter History</title>
+    <link rel="stylesheet" href="history.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="history.js"></script>
+</head>
+<body>
+    <a href="index.html">BACK TO COUNTERS</a>
+    <div id="filterSection">
+        <label for="startDate">Earliest Date:</label>
+        <input type="date" id="startDate">
+        
+        <label for="endDate">Latest Date:</label>
+        <input type="date" id="endDate">
+    </div>
+
+    <div id="chartContainer">
+        <canvas id="historyChart"></canvas>
+    </div>
+
+    <div id="folderSection">
+        <h2>Folders</h2>
+        <ul id="folderList"></ul>
+    </div>
+
+    <!-- <script src="history.js"></script> -->
+</body>
+</html>

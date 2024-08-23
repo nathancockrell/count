@@ -3,16 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Number Incrementer</title>
+    <title>Habit Tracker</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container">
-        <div id="alert" class="alert hidden">Maximum increment is 100!</div>
-        <div id="number-display" class="number-display">0</div>
-        <button id="increment-button" class="increment-button">Increment</button>
-        <input type="number" id="increment-value" class="increment-input" placeholder="Enter value (max 100)">
+    <div id="app">
+        <div id="folderSection">
+            <a href="history.html">VIEW HISTORY</a>
+            <h2>Folders</h2>
+            <button id="createFolderButton">Create Folder</button>
+            <button id="editFoldersButton">Edit Folders</button>
+            <ul id="folderList"></ul>
+        </div>
+
+        <div id="counterSection">
+            <h2>Counters</h2>
+            <div id="counterHeader">
+                <span id="selectedFolderName">All Counters</span>
+                <span id="totalCount">Total: 0</span>
+                <button id="addCounterButton">Add Counter</button>
+                <button id="editCountersButton">Edit Counters</button>
+            </div>
+            <div id="countersContainer"></div>
+        </div>
     </div>
+
     <script src="script.js"></script>
 </body>
 </html>
