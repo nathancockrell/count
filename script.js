@@ -117,7 +117,8 @@ document.addEventListener('DOMContentLoaded', function() {
             selectedFolder.counters.push(newCounter);
 
             // Always add to "All Counters" folder
-            data.folders[0].counters.push(newCounter);
+            console.log(selectedFolderName.innerHTML)
+            if(selectedFolderName.innerHTML!="All Counters")data.folders[0].counters.push(newCounter);
 
             renderCounters();
             saveData();

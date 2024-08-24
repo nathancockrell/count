@@ -10,7 +10,7 @@ body {
     display: flex;
     width: 100%;
     flex-wrap: wrap;
-    align-items: center;
+    /* align-items: center; */
     justify-content: center;
 }
 
