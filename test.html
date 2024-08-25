@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Roulette Wheel Counter</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+        }
+
+        .counter-container {
+            position: relative;
+            height: 100px;
+            width: 100px;
+            overflow: hidden;
+        }
+
+        .counter {
+            font-size: 5rem;
+            position: absolute;
+            width: 100%;
+            text-align: center;
+            transition: transform ease, opacity ease;
+        }
+
+        button {
+            font-size: 1.5rem;
+            padding: 10px 20px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: white;
+            transition: background-color 0.3s;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="counter-container" id="counter-container">
+        <div class="counter" style="transform: translateY(0);">0</div>
+    </div>
+    <button onclick="incrementCounter()">Increase</button>
+
+    <script>
+        let count = 0;
+        let ongoingAnimation = false;
+
+        function incrementCounter() {
+            count++;
+
+            const container = document.getElementById('counter-container');
+            const oldCounter = container.querySelector('.counter');
+            const totalElements = container.children.length + 1;
+
+            // Calculate new animation duration
+            let animationDuration = 0.5 / totalElements;
+
+            // If there's an ongoing animation, speed it up
+            if (ongoingAnimation) {
+                animationDuration = 0.25 / totalElements;
+                oldCounter.style.transitionDuration = `${animationDuration}s`;
+                ongoingAnimation = false; // Reset the flag
+            }
+
+            // Move the old counter up and out
+            oldCounter.style.transform = `translateY(-100%)`;
+
+            // Create and add the new counter
+            const newCounter = document.createElement('div');
+            newCounter.className = 'counter';
+            newCounter.textContent = count;
+            newCounter.style.transform = `translateY(100%)`;
+            newCounter.style.transitionDuration = `${animationDuration}s`;
+            container.appendChild(newCounter);
+
+            // Animate the new counter into place
+            requestAnimationFrame(() => {
+                newCounter.style.transform = `translateY(0)`;
+                ongoingAnimation = true; // Mark animation as ongoing
+            });
+
+            // Remove the old counter after its animation
+            setTimeout(() => {
+                if (container.contains(oldCounter)) {
+                    oldCounter.remove();
+                }
+                ongoingAnimation = false; // Reset the flag after animation
+            }, animationDuration * 1000);
+        }
+    </script>
+
+</body>
+</html>

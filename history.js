@@ -58,10 +58,10 @@ document.addEventListener('DOMContentLoaded', function() {
                     selectedFolders.add(folder.folderName);
                 }
 
-                if (selectedFolders.has('All Counters') && selectedFolders.size > 1) {
-                    selectedFolders.delete('All Counters');
-                    folderList.querySelector('li:first-child').classList.remove('selected');
-                }
+                // if (selectedFolders.has('All Counters') && selectedFolders.size > 1) {
+                //     selectedFolders.delete('All Counters');
+                //     folderList.querySelector('li:first-child').classList.remove('selected');
+                // }
 
                 renderChart();
             });

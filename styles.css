@@ -1,3 +1,10 @@
+:root {
+    --primary: #1E201E;
+    --secondary: #3C3D37;
+    --tertiary: #697565;
+    --quarternary: #ECDFCC;
+}
+
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -9,9 +16,24 @@ body {
 #app {
     display: flex;
     width: 100%;
-    flex-wrap: wrap;
+    flex-direction: column;
+    /* flex-wrap: wrap; */
     /* align-items: center; */
-    justify-content: center;
+    /* justify-content: center; */
+    overflow-y:scroll;
+}
+
+#navbar {
+    display: flex;
+    width:100%;
+    max-height:29px;
+    margin:0;
+    background-color: var(--primary);
+}
+
+#page {
+    display:flex;
+    /* flex-direction:; */
 }
 
 #folderSection, #counterSection {
@@ -19,19 +41,21 @@ body {
     padding: 20px;
     box-sizing: border-box;
     min-width: 320px;
+    
 }
 
 #folderSection {
-    background-color: #f8f8f8;
-    border-right: 1px solid #ccc;
+    background-color: var(--secondary);
+    border-right: 1px solid var(--tertiary);
 }
 
 #counterSection {
-    background-color: #fff;
+    background-color: var(--primary);
 }
 
 h2 {
     margin-top: 0;
+    color: var(--quarternary)
 }
 
 #counterHeader {
@@ -39,41 +63,106 @@ h2 {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
+    color: var(--quarternary)
 }
 
 button {
     padding: 5px 10px;
     cursor: pointer;
+    background-color: var(--quarternary);
+}
+button:hover {
+    background-color: white;
 }
 
 .folder {
     padding: 10px;
-    background-color: #e0e0e0;
+    background-color: var(--tertiary);
     margin-bottom: 5px;
     border-radius: 5px;
     cursor: pointer;
 }
 
 .folder.selected {
-    background-color: #d0d0d0;
-    border: 2px solid #007bff;
+    background-color: var(--quarternary);
+    border: 2px solid var(--primary);
 }
 
 .folder.dragging {
     opacity: 0.5;
 }
 
+#countersContainer{
+    display:flex;
+    /* flex-direction: column; */
+    flex-wrap: wrap;
+}
+
 .counter {
-    padding: 10px;
-    background-color: #f0f0f0;
+    /* padding: 10px; */
+    background-color: var(--quarternary);
     margin-bottom: 5px;
-    border: 1px solid #ccc;
+    border: 1px solid var(--primary);
     display: flex;
     justify-content: space-between;
     align-items: center;
+    width:300px;
+    flex-wrap: wrap;
+}
+
+.counter h1 {
+    width:100%;
+    text-align: center;
+    margin:0;
+    font-size: 1.5em;
+    background: var(--tertiary);
+}
+
+.counter .increment-div {
+    width:30%;
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding:3px 0;
+}
+.increment {
+    font-size: 2em;
+    width:60px;
+}
+
+.counter span {
+    margin:0;
+    width:20%;
+    font-size: 1.5em;
+    text-align: center;
 }
 
 .counter input[type="number"] {
-    width: 50px;
-    margin-left: 10px;
+    width: 30px;
+    /* margin-left: 10px; */
+    margin-top:5px;
+}
+
+.edit-modal {
+    position:fixed;
+    /* left:400; */
+    display:flex;
+    flex-direction: column;
+    padding:5px;
+    background-color: white;
+}
+.edit-modal button {
+    background-color: white;
+}
+.edit-modal p {
+    margin:0;
+    text-align: center;
+}
+.counter-edit {
+    padding: 0px;
+}
+
+.hidden {
+    display:none;
 }

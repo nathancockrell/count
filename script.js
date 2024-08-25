@@ -63,19 +63,44 @@ document.addEventListener('DOMContentLoaded', function() {
         selectedFolder.counters.forEach((counter, index) => {
             const counterDiv = document.createElement('div');
             counterDiv.className = 'counter';
+            counterDiv.classList.add(index)
 
-            const counterName = document.createElement('span');
+            const counterName = document.createElement('h1');
             counterName.textContent = counter.name;
 
-            const counterValue = document.createElement('span');
-            counterValue.textContent = counter.count;
+            const incrementDiv = document.createElement("div");
+            incrementDiv.classList.add("increment-div")
 
+            const incrementButton = document.createElement('button');
+            incrementButton.classList.add("increment")
+            incrementButton.textContent = '+';
             const incrementInput = document.createElement('input');
             incrementInput.type = 'number';
             incrementInput.value = 1;
 
-            const incrementButton = document.createElement('button');
-            incrementButton.textContent = '+';
+            const counterValue = document.createElement('span');
+            counterValue.textContent = counter.count;
+
+            const counterEdit = document.createElement('button');
+            counterEdit.textContent = "⋮"
+            counterEdit.classList.add('counter-edit')
+            const editModal = document.createElement("div");
+            editModal.classList.add("hidden");
+            editModal.classList.add("edit-modal");
+            
+            const editTitle = document.createElement("p");
+            editTitle.textContent = counter.name;
+            const editMove = document.createElement("button");
+            editMove.textContent = "Move Folders"
+            const editDelete = document.createElement("button");
+            editDelete.textContent = "Delete"
+            const editRename = document.createElement('button');
+            editRename.textContent = "Rename"
+            const editHistory = document.createElement('button');
+            editHistory.textContent = "History"
+            const editClose = document.createElement("button");
+            editClose.textContent="Cancel"
+
 
             incrementButton.addEventListener('click', () => {
                 const incrementValue = parseInt(incrementInput.value) || 1;
@@ -84,11 +109,72 @@ document.addEventListener('DOMContentLoaded', function() {
                 renderCounters();
                 saveData();
             });
+            counterEdit.addEventListener("click", (event)=>{
+                if(editModal.classList.contains("hidden")){
+                    editModal.style.top=event.clientY;
+                    editModal.style.right=event.clientX +200;
+                    editModal.classList.remove("hidden");
+                    
+                }
+                else{
+                    editModal.classList.add("hidden");
+                    counterEdit.textContent="⋮"
+                }    
+                
+            });
+            editDelete.addEventListener("click", (index)=>{
+                editModal.classList.add("hidden");
+                selectedFolder.counters = selectedFolder.counters.filter(counter => counter.name !== counterName.textContent);
+                saveData();
+                renderCounters();
+                
+            });
+            editRename.addEventListener("click", (event, index)=>{
+                const i = (selectedFolder.counters.findIndex(x => x.name === counter.name))
+                counter.name = prompt("Enter new name")
+                selectedFolder.counters[i].name=counter.name;
+                counterName.textContent = counter.name;
+                editTitle.textContent = counter.name;
+                saveData();
+                editModal.classList.add("hidden");
+                counterEdit.textContent="⋮";
+            });
+            editHistory.addEventListener("click", (index)=>{
+                
+                editModal.classList.add("hidden");
+                counterEdit.textContent="⋮"
+            });
+            editMove.addEventListener("click", ()=>{
+                const i = (selectedFolder.counters.findIndex(x => x.name === counter.name))
+                let temp = selectedFolder.counters[i];
+                const destination = prompt("Move to folder:")
+                data.folders[data.folders.findIndex(x => x.folderName===destination)].counters.push(temp);
+                selectedFolder.counters.splice(i, 1);
+                saveData();
+                renderCounters();
+                renderFolders();
+            })
+            editClose.addEventListener("click", ()=>{
+                editModal.classList.add("hidden");
+            })
+            
+            editModal.appendChild(editTitle);
+            editModal.appendChild(editRename);
+            editModal.appendChild(editHistory);
+            editModal.appendChild(editMove);
+            editModal.appendChild(editDelete);
+            editModal.appendChild(editClose)
+
+            
+
+            incrementDiv.appendChild(incrementButton);
+            incrementDiv.appendChild(incrementInput)
 
             counterDiv.appendChild(counterName);
             counterDiv.appendChild(counterValue);
-            counterDiv.appendChild(incrementInput);
-            counterDiv.appendChild(incrementButton);
+            counterDiv.appendChild(incrementDiv);
+            counterDiv.appendChild(counterEdit);
+            counterDiv.appendChild(editModal);
 
             countersContainer.appendChild(counterDiv);
 
@@ -101,7 +187,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     document.getElementById('createFolderButton').addEventListener('click', () => {
         const folderName = prompt("Enter folder name:");
-        if (folderName) {
+        if (folderName && folderName !== "All Counters") {
             data.folders.push({ folderName, counters: [] });
             renderFolders();
             saveData();
@@ -195,25 +281,28 @@ document.addEventListener('DOMContentLoaded', function() {
     function enableFolderReordering() {
         const folders = folderList.querySelectorAll('.folder');
         folders.forEach((folder, index) => {
-            folder.setAttribute('draggable', true);
-            folder.addEventListener('dragstart', (e) => {
+            if(folder.innerHTML !== "All Counters"){
+                
+                folder.setAttribute('draggable', true);
+                folder.addEventListener('dragstart', (e) => {
                 e.dataTransfer.setData('text/plain', index);
                 e.target.classList.add('dragging');
-            });
+                });
 
-            folder.addEventListener('dragend', (e) => {
-                e.target.classList.remove('dragging');
-            });
+                folder.addEventListener('dragend', (e) => {
+                    e.target.classList.remove('dragging');
+                });
 
-            folder.addEventListener('dragover', (e) => {
-                e.preventDefault();
-                const draggingElement = folderList.querySelector('.dragging');
-                const targetElement = e.target.closest('.folder');
-                if (targetElement && targetElement !== draggingElement) {
-                    folderList.insertBefore(draggingElement, targetElement.nextSibling);
-                    reorderFolders();
-                }
-            });
+                folder.addEventListener('dragover', (e) => {
+                    e.preventDefault();
+                    const draggingElement = folderList.querySelector('.dragging');
+                    const targetElement = e.target.closest('.folder');
+                    if (targetElement && targetElement !== draggingElement && targetElement !== folders[0]) {
+                        folderList.insertBefore(draggingElement, targetElement.nextSibling);
+                        reorderFolders();
+                    }
+                });
+            }
         });
     }
 

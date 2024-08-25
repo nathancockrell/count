@@ -2,29 +2,40 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0 maximum-scale=1.0, user-scalable=0">
     <title>Habit Tracker</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    
     <div id="app">
-        <div id="folderSection">
-            <a href="history.html">VIEW HISTORY</a>
-            <h2>Folders</h2>
-            <button id="createFolderButton">Create Folder</button>
-            <button id="editFoldersButton">Edit Folders</button>
-            <ul id="folderList"></ul>
+        <div id="navbar">
+            <button id="navbar-trigger">|||||</button>
         </div>
 
-        <div id="counterSection">
-            <h2>Counters</h2>
-            <div id="counterHeader">
-                <span id="selectedFolderName">All Counters</span>
-                <span id="totalCount">Total: 0</span>
-                <button id="addCounterButton">Add Counter</button>
-                <button id="editCountersButton">Edit Counters</button>
+        <div id="page">
+            <div id="folderSection" class="">
+                <a href="history.html">VIEW HISTORY</a>
+                <h2>Folders</h2>
+                <button id="createFolderButton">Create Folder</button>
+                <button id="editFoldersButton">Edit Folders</button>
+                <ul id="folderList"></ul>
             </div>
-            <div id="countersContainer"></div>
+    
+            <div id="counterSection">
+                <h2>Counters</h2>
+                <div id="counterHeader">
+                    <span id="selectedFolderName">All Counters</span>
+                    <span id="totalCount">Total: 0</span>
+                    <button id="addCounterButton">Add Counter</button>
+                    <button id="editCountersButton">Edit Counters</button>
+                </div>
+                <div id="countersContainer"></div>
+            </div>
+    
+            <div id="labelsSection">
+    
+            </div>
         </div>
     </div>
 
