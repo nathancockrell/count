@@ -10,12 +10,23 @@
     
     <div id="app">
         <div id="navbar">
-            <button id="navbar-trigger">|||||</button>
+            
+            <div id="navbar-modal" class="hidden">
+                <!-- <button class="navbar-trigger">X</button> -->
+                <button id="nav-home">Home</button>
+                <button id="nav-folders">Folders</button>
+                <button id="nav-labels">Labels</button>
+                <button id="nav-quests">Quests</button>
+                <a href="history.html"><button id="nav-history">History</button></a>
+                <a href="journal.html"><button id="nav-journal">Journal</button></a>
+            </div>
+            <button id="navbar-trigger" class="navbar-trigger">|||||</button>
         </div>
 
         <div id="page">
+            <div id="homeSection"></div>
             <div id="folderSection" class="">
-                <a href="history.html">VIEW HISTORY</a>
+                
                 <h2>Folders</h2>
                 <button id="createFolderButton">Create Folder</button>
                 <button id="editFoldersButton">Edit Folders</button>
@@ -32,10 +43,22 @@
                 </div>
                 <div id="countersContainer"></div>
             </div>
+
+            <div id="counterHistory" class="hidden">
+                <div id="history-header">
+                    <h1 id="history-title"></h1>
+                    <button id="close-history">X</button>
+                </div>
+                <div id="entries">
+
+                </div>
+                
+            </div>
     
             <div id="labelsSection">
-    
+                <h1>Labels</h1>
             </div>
+            
         </div>
     </div>
 

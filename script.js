@@ -1,11 +1,24 @@
 document.addEventListener('DOMContentLoaded', function() {
     let data = loadData();
+    let today = new Date().toLocaleDateString();
 
+    const navbarTrigger = document.getElementById('navbar-trigger')
     const folderList = document.getElementById('folderList');
     const countersContainer = document.getElementById('countersContainer');
     const totalCount = document.getElementById('totalCount');
     const selectedFolderName = document.getElementById('selectedFolderName');
     let selectedFolder = data.folders[0]; // Default to "All Counters"
+
+    let shown=false;
+    navbarTrigger.addEventListener("click", ()=>{
+        if(!shown) {
+            document.getElementById("navbar-modal").classList.remove("hidden")
+            shown=true;
+        }else {
+            document.getElementById("navbar-modal").classList.add("hidden")
+            shown=false;
+        }
+    })
 
     function loadData() {
         const savedData = localStorage.getItem('habitTrackerData');
@@ -80,6 +93,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
             const counterValue = document.createElement('span');
             counterValue.textContent = counter.count;
+            const counterDayCount = document.createElement('span')
+            let dayLog = counter.history.filter(x => x.date === today)
+            if(dayLog.length>0)counterDayCount.textContent = dayLog[0].amount;
+            else{counterDayCount.textContent = 0;}
+            // 
 
             const counterEdit = document.createElement('button');
             counterEdit.textContent = "⋮"
@@ -87,7 +105,12 @@ document.addEventListener('DOMContentLoaded', function() {
             const editModal = document.createElement("div");
             editModal.classList.add("hidden");
             editModal.classList.add("edit-modal");
-            
+
+            const editCounter = document.createElement("button")
+            editCounter.textContent = "Edit"
+            const editColor = document.createElement("button")
+            editColor.textContent = "Color"
+
             const editTitle = document.createElement("p");
             editTitle.textContent = counter.name;
             const editMove = document.createElement("button");
@@ -105,7 +128,16 @@ document.addEventListener('DOMContentLoaded', function() {
             incrementButton.addEventListener('click', () => {
                 const incrementValue = parseInt(incrementInput.value) || 1;
                 counter.count += incrementValue;
-                counter.history.push({ date: new Date().toLocaleDateString(), amount: incrementValue });
+                
+                let i = counter.history.findIndex(x => x.date === today.toString())
+                // console.log(i)
+                if(i>-1){
+                    counter.history[i].amount += incrementValue
+                }
+                else {
+                    counter.history.push({ date: new Date().toLocaleDateString(), amount: incrementValue });
+                }
+
                 renderCounters();
                 saveData();
             });
@@ -132,18 +164,31 @@ document.addEventListener('DOMContentLoaded', function() {
             editRename.addEventListener("click", (event, index)=>{
                 const i = (selectedFolder.counters.findIndex(x => x.name === counter.name))
                 counter.name = prompt("Enter new name")
-                selectedFolder.counters[i].name=counter.name;
+                if(counter.name != ""){
+                    selectedFolder.counters[i].name=counter.name;
                 counterName.textContent = counter.name;
                 editTitle.textContent = counter.name;
                 saveData();
+                }
                 editModal.classList.add("hidden");
                 counterEdit.textContent="⋮";
             });
             editHistory.addEventListener("click", (index)=>{
-                
+                document.getElementById("counterHistory").classList.remove("hidden")
+                document.getElementById("history-title").textContent = counter.name + " history"
+                document.getElementById("entries").innerHTML = "";
+                for (let i=0; i<counter.history.length;i++){
+                    const entry = document.createElement("button")
+                    entry.innerHTML = `${i+1}: ${counter.history[i].date} : Amount: ${counter.history[i].amount}`
+                    document.getElementById("entries").appendChild(entry)
+                }
                 editModal.classList.add("hidden");
                 counterEdit.textContent="⋮"
             });
+            document.getElementById("close-history").addEventListener("click", ()=>{
+                document.getElementById("entries").innerHTML = "";
+                document.getElementById("counterHistory").classList.add("hidden")
+            })
             editMove.addEventListener("click", ()=>{
                 const i = (selectedFolder.counters.findIndex(x => x.name === counter.name))
                 let temp = selectedFolder.counters[i];
@@ -154,24 +199,37 @@ document.addEventListener('DOMContentLoaded', function() {
                 renderCounters();
                 renderFolders();
             })
+
+            editCounter.addEventListener("click", ()=>{
+                const i = (selectedFolder.counters.findIndex(x => x.name === counter.name))
+                let guy = selectedFolder.counters[i];
+                let place = selectedFolder.folderName;
+                console.log(place)
+                renderCounterEdit(guy, place);
+                editModal.classList.add("hidden");
+            })
             editClose.addEventListener("click", ()=>{
                 editModal.classList.add("hidden");
             })
             
-            editModal.appendChild(editTitle);
-            editModal.appendChild(editRename);
-            editModal.appendChild(editHistory);
-            editModal.appendChild(editMove);
-            editModal.appendChild(editDelete);
-            editModal.appendChild(editClose)
+            editModal.appendChild(editCounter)
+            editModal.appendChild(editColor)
+
+            // editModal.appendChild(editTitle);
+            // editModal.appendChild(editRename);
+            // editModal.appendChild(editHistory);
+            // editModal.appendChild(editMove);
+            // editModal.appendChild(editDelete);
+            editModal.appendChild(editClose);
 
             
 
             incrementDiv.appendChild(incrementButton);
-            incrementDiv.appendChild(incrementInput)
+            // incrementDiv.appendChild(incrementInput)
 
             counterDiv.appendChild(counterName);
             counterDiv.appendChild(counterValue);
+            counterDiv.appendChild(counterDayCount);
             counterDiv.appendChild(incrementDiv);
             counterDiv.appendChild(counterEdit);
             counterDiv.appendChild(editModal);
@@ -183,6 +241,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
         totalCount.textContent = `Total: ${total}`;
         selectedFolderName.textContent = selectedFolder.folderName;
+    }
+    function renderCounterEdit(guy, place){
+        console.log(guy, place)
     }
 
     document.getElementById('createFolderButton').addEventListener('click', () => {
@@ -204,7 +265,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             // Always add to "All Counters" folder
             console.log(selectedFolderName.innerHTML)
-            if(selectedFolderName.innerHTML!="All Counters")data.folders[0].counters.push(newCounter);
+            if(selectedFolderName.innerHTML!="All Counters")data.folders[0].counters.push(selectedFolder.counters[selectedFolder.counters.length-1]);
 
             renderCounters();
             saveData();
