@@ -9,37 +9,41 @@
 <body>
     
     <div id="app">
-        <div id="navbar">
+        <div id="header">
             
             <div id="navbar-modal" class="hidden">
                 <!-- <button class="navbar-trigger">X</button> -->
                 <button id="nav-home">Home</button>
-                <button id="nav-folders">Folders</button>
                 <button id="nav-labels">Labels</button>
-                <button id="nav-quests">Quests</button>
-                <a href="history.html"><button id="nav-history">History</button></a>
-                <a href="journal.html"><button id="nav-journal">Journal</button></a>
+                <!-- <button id="nav-quests">Quests</button> -->
+                <a href="history.html">History</a>
+                <a href="journal.html">Journal</a>
             </div>
             <button id="navbar-trigger" class="navbar-trigger">|||||</button>
         </div>
 
         <div id="page">
-            <div id="homeSection"></div>
-            <div id="folderSection" class="">
-                
-                <h2>Folders</h2>
-                <button id="createFolderButton">Create Folder</button>
-                <button id="editFoldersButton">Edit Folders</button>
-                <ul id="folderList"></ul>
+            <div id="homeSection">
+
             </div>
-    
+            <div id="filterSection">
+                <h2>All Labels</h2>
+                <div id="labelsContainer">
+
+                </div>
+                
+                <button id="addLabel">New Label</button>
+                <div id="selectedLabels">
+                    
+                </div>
+            </div>
             <div id="counterSection">
-                <h2>Counters</h2>
+                <!-- <h2>Counters</h2> -->
+                <!-- <h2 id="selectedLabelName">All Counters</h2> -->
                 <div id="counterHeader">
-                    <span id="selectedFolderName">All Counters</span>
                     <span id="totalCount">Total: 0</span>
                     <button id="addCounterButton">Add Counter</button>
-                    <button id="editCountersButton">Edit Counters</button>
+                    <!-- <button id="editCountersButton">Edit Counters</button> -->
                 </div>
                 <div id="countersContainer"></div>
             </div>
@@ -57,6 +61,30 @@
     
             <div id="labelsSection">
                 <h1>Labels</h1>
+            </div>
+            <div id="counter-modal-div">
+            <div id="counter-modal" class="hidden">
+                <button id="modal-close">X</button>
+                <!-- <label for="modal-title" id="modal-title-label"></label> -->
+                <h1 id="modal-title"></h1>
+                <button id="modal-rename">EDIT NAME</button>
+                <div id="modal-labels"></div>
+                <button id="modal-edit-labels">EDIT LABELS</button>
+                <button id="modal-recolor">EDIT COLOR</button>
+                <input type="color" id="color-input" class="hidden">
+                
+
+                <h1>Total:<span id="modal-total"></span></h1>
+                <h1>Today's Total: <span id="modal-day-count"></span></h1>
+                <hr>
+                <!-- <input type="number" id="increment-input">
+                <button id="modal-button"></button> -->
+                <h1 id="modal-history-title">History</h1>
+                <button id="modal-edit-history">EDIT HISTORY</button>
+                <div id="modal-history">
+
+                </div>
+            </div>
             </div>
             
         </div>

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notes App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            height: 100vh;
+            margin: 0;
+        }
+        #navigate {
+            width: 300px;
+            background-color: #f0f0f0;
+            padding: 10px;
+            overflow-y: auto;
+        }
+        #file-display {
+            flex-grow: 1;
+            padding: 10px;
+            overflow-y: auto;
+        }
+        .folder, .note {
+            margin-left: 20px;
+            cursor: pointer;
+        }
+        .folder {
+            font-weight: bold;
+        }
+        #navigation-path {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="navigate">
+        <button onclick="createFolder()">Create Folder</button>
+        <button onclick="createNote()">Create Note</button>
+        <div id="folder-structure"></div>
+    </div>
+
+    <div id="file-display">
+        <div id="navigation-path">/</div>
+        <div id="notes-display"></div>
+    </div>
+
+    <script>
+        let folderStructure = {};
+        let currentPath = [];
+        let folderIdCounter = 1;
+        let noteIdCounter = 1;
+
+        function renderFolderStructure() {
+            const container = document.getElementById('folder-structure');
+            container.innerHTML = renderFolders(folderStructure, []);
+        }
+
+        function renderFolders(folders, path) {
+            let html = '';
+            for (const [name, content] of Object.entries(folders)) {
+                if (content.type === 'folder') {
+                    const newPath = [...path, name];
+                    html += `<div class="folder" onclick="navigateTo('${newPath.join('/')}')">${name}</div>`;
+                    html += renderFolders(content.children, newPath);
+                }
+            }
+            return html;
+        }
+
+        function createFolder() {
+            const folderName = prompt("Enter folder name:");
+            if (folderName) {
+                let currentFolder = getCurrentFolder();
+                if (!currentFolder[folderName]) {
+                    currentFolder[folderName] = {
+                        type: 'folder',
+                        children: {}
+                    };
+                }
+                renderFolderStructure();
+                displayNotes();
+            }
+        }
+
+        function createNote() {
+            const noteName = prompt("Enter note name:");
+            if (noteName) {
+                let currentFolder = getCurrentFolder();
+                if (!currentFolder[noteName]) {
+                    currentFolder[noteName] = {
+                        type: 'note',
+                        id: `note-${noteIdCounter++}`
+                    };
+                }
+                displayNotes();
+            }
+        }
+
+        function navigateTo(pathString) {
+            currentPath = pathString.split('/');
+            displayNotes();
+            updateNavigationPath();
+        }
+
+        function getCurrentFolder() {
+            let folder = folderStructure;
+            for (const part of currentPath) {
+                if (folder[part] && folder[part].type === 'folder') {
+                    folder = folder[part].children;
+                }
+            }
+            return folder;
+        }
+
+        function displayNotes() {
+            const notesContainer = document.getElementById('notes-display');
+            const currentFolder = getCurrentFolder();
+            notesContainer.innerHTML = '';
+            for (const [name, content] of Object.entries(currentFolder)) {
+                if (content.type === 'note') {
+                    notesContainer.innerHTML += `<div class="note">${name}</div>`;
+                }
+            }
+        }
+
+        function updateNavigationPath() {
+            const navigationPath = document.getElementById('navigation-path');
+            navigationPath.textContent = `/${currentPath.join('/')}`;
+        }
+
+        renderFolderStructure();
+        displayNotes();
+        updateNavigationPath();
+    </script>
+
+</body>
+</html>
