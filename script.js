@@ -19,8 +19,9 @@ document.addEventListener('DOMContentLoaded', function() {
         // for each
 
         // counters page
-        renderCounters(countersContainer, data.counters,selectedLabels);
         renderLabels(labelsContainer,selectedLabelsDiv,data.labels);
+        renderCounters(countersContainer, data.counters,selectedLabels);
+        
     }
     // Counters Page:
     // [{location:labelsContainer, location2:selectedLabelsDiv, array:data.labels},
